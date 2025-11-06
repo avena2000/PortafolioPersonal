@@ -13,20 +13,22 @@ RUN bun install
 COPY . .
 
 # Build the application
-RUN bun run build
+RUN bun --bun run build
 
 # Stage 2: Production
-FROM nginx:alpine
+FROM oven/bun:1-alpine
+
+WORKDIR /app
 
 # Copy built files from builder stage
-COPY --from=builder /app/build /usr/share/nginx/html
+COPY --from=builder /app/build ./build
 
-# Copy nginx configuration
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Copy package.json for potential runtime dependencies
+COPY --from=builder /app/package.json ./
 
-# Expose port 80
+# Expose port 3000 (default SvelteKit port)
 EXPOSE 80
 
-# Start nginx
-CMD ["nginx", "-g", "daemon off;"]
+# Start the server with bun
+CMD ["bun", "./build/index.js"]
 
