@@ -38,6 +38,7 @@
 		"vite": "^7.1.7"
 	},
 	"dependencies": {
+		"@sveltejs/adapter-node": "^5.4.0",
 		"lightgallery": "^2.9.0"
 	}
 }

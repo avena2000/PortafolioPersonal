@@ -202,7 +202,19 @@
 		<!-- Mobile menu overlay -->
 		{#if mobileMenuOpen}
 			<div class="fixed inset-0 z-40 md:hidden" transition:fade={{ duration: 200 }}>
-				<div class="fixed inset-0 bg-black/50" on:click={closeMobileMenu}></div>
+				<div
+					class="fixed inset-0 bg-black/50"
+					role="button"
+					tabindex="0"
+					aria-label={lang === 'es' ? 'Cerrar menú' : 'Close menu'}
+					on:click={closeMobileMenu}
+					on:keydown={(e) => {
+						if (e.key === 'Enter' || e.key === ' ') {
+							e.preventDefault();
+							closeMobileMenu();
+						}
+					}}
+				></div>
 				<div
 					class="fixed left-0 right-0 top-14 border-b border-[#282e39] bg-[#111318] shadow-lg"
 					transition:slide={{ duration: 200, axis: 'y' }}
@@ -256,7 +268,7 @@
 						<div class="flex flex-col items-center gap-4 sm:gap-6">
 							<div class="relative">
 								<img
-									src="/perfil.jpeg"
+									src="/perfil.avif"
 									alt="Profile"
 									class="h-28 w-28 rounded-full border-4 border-[#282e39] object-cover shadow-lg sm:h-32 sm:w-32"
 								/>
@@ -706,7 +718,6 @@
 								<div class="mb-4 flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
 									<div class="flex-1">
 										<div class="mb-2 flex items-start gap-3 sm:gap-4">
-											
 											<div class="min-w-0 flex-1">
 												<h3 class="mb-1 text-lg font-bold leading-tight text-white sm:text-xl">
 													{project.company}
