@@ -1,9 +1,24 @@
 <script lang="ts">
-	import { currentLanguage, toggleLanguage } from '$lib/stores/language';
+	import { currentLanguage } from '$lib/stores/language';
+	import { page } from '$app/stores';
+	import { goto } from '$app/navigation';
+
+	function switchLanguage() {
+		const currentLang = $currentLanguage;
+		const newLang = currentLang === 'es' ? 'en' : 'es';
+		
+		// Get current path and replace language segment
+		const currentPath = $page.url.pathname;
+		const pathParts = currentPath.split('/');
+		pathParts[1] = newLang;
+		const newPath = pathParts.join('/');
+		
+		goto(newPath);
+	}
 </script>
 
 <button
-	on:click={toggleLanguage}
+	on:click={switchLanguage}
 	class="group flex items-center gap-2 rounded-lg bg-[#282e39] px-4 py-2 text-white text-sm font-medium leading-normal hover:bg-[#3a4049] transition-all"
 	aria-label="Change language"
 >
